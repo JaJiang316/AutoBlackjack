@@ -1,0 +1,2 @@
+pytesseract === 0.3.7
+pyAutoGUI === 0.9.52
