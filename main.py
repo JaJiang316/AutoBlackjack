@@ -4,23 +4,31 @@ from threading import Thread
 from pynput import keyboard
 import time
 pyautogui.PAUSE = 1
+pyautogui.FAILSAFE = True
 
 
 def exit_program():
     def on_press(key):
         if str(key) == 'Key.esc':
             main.status = 'pause'
-            user_input = input(
-                'Program paused, would you like to continue? (y/n) ')
-
-            while user_input != 'y' and user_input != 'n':
-                user_input = input('Incorrect input, try either "y" or "n" ')
-
-            if user_input == 'y':
+            confirm = pyautogui.confirm(
+                text='Continue or Stop the program', title='Confirm', buttons=['Continue', 'Exit'])
+            if(confirm == 'Continue'):
                 main.status = 'run'
-            elif user_input == 'n':
+            elif(confirm == 'Exit'):
                 main.status = 'exit'
                 exit()
+            # user_input = input(
+            #     'Program paused, would you like to continue? (y/n) ')
+
+            # while user_input != 'y' and user_input != 'n':
+            #     user_input = input('Incorrect input, try either "y" or "n" ')
+
+            # if user_input == 'y':
+            #     main.status = 'run'
+            # elif user_input == 'n':
+            #     main.status = 'exit'
+            #     exit()
 
     with keyboard.Listener(on_press=on_press) as listener:
         listener.join()
@@ -28,10 +36,10 @@ def exit_program():
 
 def main():
     main.status = 'run'
-
     while True:
         print('running')
         time.sleep(1)
+
         myScreenshot = pyautogui.screenshot()
         myScreenshot.save(
             r'C:\Users\Jason\Desktop\Self Projects\Screen Reader\screenshot_1.png')
