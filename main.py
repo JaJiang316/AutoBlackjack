@@ -36,6 +36,7 @@ def exit_program():
                 main.status = 'run'
             if(button == 'Exit'):
                 main.status = 'exit'
+                exit()
             # user_input = input(
             #     'Program paused, would you like to continue? (y/n) ')
             # while user_input != 'y' and user_input != 'n':
@@ -66,11 +67,10 @@ def main():
 
         if (main.status == 'exit'):
             print('Main program closing')
-            exit()
+            break
 
 
-s = threading.Thread(target=main)
+s = threading.Thread(target=main, name='mainprogram')
 s.start()
-t = threading.Thread(target=exit_program)
-t.daemon = True
+t = threading.Thread(target=exit_program, name='screenshot')
 t.start()
