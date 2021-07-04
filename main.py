@@ -55,9 +55,14 @@ def main():
     while True:
         print('running')
         time.sleep(2)
-        myScreenshot = pyautogui.screenshot(region=(300, 300, 300, 400))
+        myScreenshot = pyautogui.screenshot(region=(393, 472, 898, 332))
         myScreenshot.save(
-            r'C:\Users\Jason\Desktop\Self Projects\Screen Reader\screenshot_1.png')
+            r'C:\Users\Jason\Desktop\Self Projects\Screen Reader\images\screenshot_1.png')
+
+        dealbutton = pyautogui.locateOnScreen('images\Deal_button.png')
+        dealbutton = pyautogui.center(dealbutton)
+        dealbuttonx, dealbuttony = dealbutton
+        pyautogui.click(dealbuttonx, dealbuttony)
         # img = cv2.imread('screenshot_1.png')
         # gray = get_grayscale(img)
         # print(pytesseract.image_to_string(gray))
