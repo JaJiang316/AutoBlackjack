@@ -83,7 +83,7 @@ def main():
                 'images\\Deal_button.png')
             pyautogui.click(dealbuttonx, dealbuttony)
         time.sleep(3)
-
+        pyautogui.moveTo(1660, 352)
         dealerHandimg = pyautogui.screenshot(region=(1014, 400, 76, 72))
         dealerHandimg.save(
             r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\dealerHand.png')
@@ -182,8 +182,8 @@ def main():
                 standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
                     'images\\Stand_button.png')
                 pyautogui.click(standbuttonx, standbuttony)
-        time.sleep(4)
-
+        time.sleep(2)
+        pyautogui.moveTo(1660, 352)
         # img = cv2.imread('screenshot_1.png')
         # gray = get_grayscale(img)
         # print(pytesseract.image_to_string(gray))
