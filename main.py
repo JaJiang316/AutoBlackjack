@@ -19,12 +19,12 @@ def get_grayscale(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 
-def remove_noise(image):
-    return cv2.medianBlur(image, 5)
+# def remove_noise(image):
+#     return cv2.medianBlur(image, 5)
 
 
-def thresholding(image):
-    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+# def thresholding(image):
+#     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
 
 def get_userTotal():
@@ -82,106 +82,115 @@ def main():
             dealbuttonx, dealbuttony = pyautogui.locateCenterOnScreen(
                 'images\\Deal_button.png')
             pyautogui.click(dealbuttonx, dealbuttony)
-        time.sleep(3)
-        pyautogui.moveTo(1660, 352)
-        dealerHandimg = pyautogui.screenshot(region=(1014, 400, 76, 72))
-        dealerHandimg.save(
-            r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\dealerHand.png')
+        if(pyautogui.locateOnScreen('images\\Blackjack.png') == None):
+            pyautogui.moveTo(1660, 352)
+            dealerHandimg = pyautogui.screenshot(region=(1014, 400, 76, 72))
+            dealerHandimg.save(
+                r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\dealerHand.png')
 
-        cardTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
-        cardTotal.save(
-            r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+            cardTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
+            cardTotal.save(
+                r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
 
-        # Getting the dealers hand and then gray scaling and inverting the image
-        dealerImage = cv2.imread('images\\dealerHand.png')
-        gray = get_grayscale(dealerImage)
-        cv2.imwrite('images\\dealerHand.png', gray)
+            # Getting the dealers hand and then gray scaling and inverting the image
+            dealerImage = cv2.imread('images\\dealerHand.png')
+            gray = get_grayscale(dealerImage)
+            cv2.imwrite('images\\dealerHand.png', gray)
 
-        im = Image.open('images\\dealerHand.png').convert('RGB')
-        im_invert = ImageOps.invert(im)
-        im_invert.save('images\\dealerHand.png')
+            im = Image.open('images\\dealerHand.png').convert('RGB')
+            im_invert = ImageOps.invert(im)
+            im_invert.save('images\\dealerHand.png')
 
-        dealerImage = cv2.imread('images\\dealerHand.png')
-        dealersHand = pytesseract.image_to_string(
-            dealerImage, config='--psm 7 digits')
-        # print(dealersHand)
-        print("Getting dealers hand")
-        dealersHand = int(dealersHand)
-        print(f"Dealers hand is ${dealersHand}")
-        ########################################
+            dealerImage = cv2.imread('images\\dealerHand.png')
+            dealersHand = pytesseract.image_to_string(
+                dealerImage, config='--psm 7 digits')
+            # print(dealersHand)
+            print("Getting dealers hand")
+            dealersHand = int(dealersHand)
+            print(f"Dealers hand is ${dealersHand}")
+            ########################################
 
-        # Getting the players hand and then gray scaling and inverting the image
-        playerImage = cv2.imread('images\\userTotal.png')
-        gray = get_grayscale(playerImage)
-        cv2.imwrite('images\\userTotal.png', gray)
+            # Getting the players hand and then gray scaling and inverting the image
+            playerImage = cv2.imread('images\\userTotal.png')
+            gray = get_grayscale(playerImage)
+            cv2.imwrite('images\\userTotal.png', gray)
 
-        im2 = Image.open('images\\userTotal.png').convert('RGB')
-        im2_invert = ImageOps.invert(im2)
-        im2_invert.save('images\\userTotal.png')
+            im2 = Image.open('images\\userTotal.png').convert('RGB')
+            im2_invert = ImageOps.invert(im2)
+            im2_invert.save('images\\userTotal.png')
 
-        playerImage = cv2.imread('images\\userTotal.png')
-        playersHand = pytesseract.image_to_string(
-            playerImage, config='--psm 7 digits')
-        # print(playersHand)
-        print("Getting players hand")
-        playersHand = int(playersHand)
-        print(f"Players hand is ${playersHand}")
-        ########################################
+            playerImage = cv2.imread('images\\userTotal.png')
+            playersHand = pytesseract.image_to_string(
+                playerImage, config='--psm 7 digits')
+            # print(playersHand)
+            print("Getting players hand")
+            playersHand = int(playersHand)
+            print(f"Players hand is ${playersHand}")
+            ########################################
 
-        print("Checking Dealers Hand")
-        if(dealersHand == 2 or dealersHand == 3):
-            while(playersHand < 13):
-                print("Hitting")
-                hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
-                    'images\\Hit_button.png')
-                pyautogui.click(hitbuttonx, hitbuttony)
-                cardTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
-                cardTotal.save(
-                    r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
-                print("Getting players hand")
-                playersHand = int(get_userTotal())
-                print(f"Players hand is ${playersHand}")
-            print("Standing")
-            if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
-                standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
-                    'images\\Stand_button.png')
-                pyautogui.click(standbuttonx, standbuttony)
+            print("Checking Dealers Hand")
+            if(dealersHand == 2 or dealersHand == 3):
+                while(playersHand < 13):
+                    print("Hitting")
+                    hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
+                        'images\\Hit_button.png')
+                    pyautogui.click(hitbuttonx, hitbuttony)
+                    cardTotal = pyautogui.screenshot(
+                        region=(1012, 730, 77, 74))
+                    cardTotal.save(
+                        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                    print("Getting players hand")
+                    playersHand = int(get_userTotal())
+                    print(f"Players hand is ${playersHand}")
+                    pyautogui.moveTo(1660, 352)
+                if(playersHand < 21):
+                    print("Standing")
+                    if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
+                        standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
+                            'images\\Stand_button.png')
+                        pyautogui.click(standbuttonx, standbuttony)
 
-        elif(dealersHand == 4 or dealersHand == 5 or dealersHand == 6):
-            while(playersHand < 12):
-                print("Hitting")
-                hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
-                    'images\\Hit_button.png')
-                pyautogui.click(hitbuttonx, hitbuttony)
-                cardTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
-                cardTotal.save(
-                    r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
-                print("Getting players hand")
-                playersHand = int(get_userTotal())
-                print(f"Players hand is ${playersHand}")
-            print("Standing")
-            if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
-                standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
-                    'images\\Stand_button.png')
-                pyautogui.click(standbuttonx, standbuttony)
+            elif(dealersHand == 4 or dealersHand == 5 or dealersHand == 6):
+                while(playersHand < 12):
+                    print("Hitting")
+                    hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
+                        'images\\Hit_button.png')
+                    pyautogui.click(hitbuttonx, hitbuttony)
+                    cardTotal = pyautogui.screenshot(
+                        region=(1012, 730, 77, 74))
+                    cardTotal.save(
+                        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                    print("Getting players hand")
+                    playersHand = int(get_userTotal())
+                    print(f"Players hand is ${playersHand}")
+                    pyautogui.moveTo(1660, 352)
+                if(playersHand < 21):
+                    print("Standing")
+                    if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
+                        standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
+                            'images\\Stand_button.png')
+                        pyautogui.click(standbuttonx, standbuttony)
 
-        elif(dealersHand == 7 or dealersHand == 8 or dealersHand == 9 or dealersHand == 10 or dealersHand == 11):
-            while(playersHand < 17):
-                print("Hitting")
-                hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
-                    'images\\Hit_button.png')
-                pyautogui.click(hitbuttonx, hitbuttony)
-                cardTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
-                cardTotal.save(
-                    r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
-                print("Getting players hand")
-                playersHand = int(get_userTotal())
-                print(f"Players hand is ${playersHand}")
-            print("Standing")
-            if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
-                standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
-                    'images\\Stand_button.png')
-                pyautogui.click(standbuttonx, standbuttony)
+            elif(dealersHand == 7 or dealersHand == 8 or dealersHand == 9 or dealersHand == 10 or dealersHand == 11):
+                while(playersHand < 17):
+                    print("Hitting")
+                    hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
+                        'images\\Hit_button.png')
+                    pyautogui.click(hitbuttonx, hitbuttony)
+                    cardTotal = pyautogui.screenshot(
+                        region=(1012, 730, 77, 74))
+                    cardTotal.save(
+                        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                    print("Getting players hand")
+                    playersHand = int(get_userTotal())
+                    print(f"Players hand is ${playersHand}")
+                    pyautogui.moveTo(1660, 352)
+                if(playersHand < 21):
+                    print("Standing")
+                    if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
+                        standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
+                            'images\\Stand_button.png')
+                        pyautogui.click(standbuttonx, standbuttony)
         time.sleep(2)
         pyautogui.moveTo(1660, 352)
         # img = cv2.imread('screenshot_1.png')
