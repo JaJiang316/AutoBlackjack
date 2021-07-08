@@ -40,6 +40,31 @@ def get_userTotal():
     # print(playersHand)
 
 
+def get_dealerTotal():
+    dealerImage = cv2.imread('images\\dealerHand.png')
+    gray = get_grayscale(dealerImage)
+    cv2.imwrite('images\\dealerHand.png', gray)
+    im2 = Image.open('images\\dealerHand.png').convert('RGB')
+    im2_invert = ImageOps.invert(im2)
+    im2_invert.save('images\\dealerHand.png')
+    dealerImage = cv2.imread('images\\dealerHand.png')
+    return pytesseract.image_to_string(
+        dealerImage, config='--psm 7 digits')
+    # print(dealerHand)
+
+
+def screenshot_userHand():
+    userTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
+    userTotal.save(
+        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+
+
+def screenshot_dealerHand():
+    dealerHandimg = pyautogui.screenshot(region=(1014, 400, 76, 72))
+    dealerHandimg.save(
+        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\dealerHand.png')
+
+
 def exit_program():
     def on_press(key):
         if str(key) == 'Key.esc':
@@ -86,44 +111,22 @@ def main():
 
         if(pyautogui.locateOnScreen('images\\Blackjack.png') == None):
             pyautogui.moveTo(1660, 352)
-            dealerHandimg = pyautogui.screenshot(region=(1014, 400, 76, 72))
-            dealerHandimg.save(
-                r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\dealerHand.png')
 
-            cardTotal = pyautogui.screenshot(region=(1012, 730, 77, 74))
-            cardTotal.save(
-                r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+            screenshot_dealerHand()
+            screenshot_userHand()
 
+            ########################################
             # Getting the dealers hand and then gray scaling and inverting the image
-            dealerImage = cv2.imread('images\\dealerHand.png')
-            gray = get_grayscale(dealerImage)
-            cv2.imwrite('images\\dealerHand.png', gray)
-
-            im = Image.open('images\\dealerHand.png').convert('RGB')
-            im_invert = ImageOps.invert(im)
-            im_invert.save('images\\dealerHand.png')
-
-            dealerImage = cv2.imread('images\\dealerHand.png')
-            dealersHand = pytesseract.image_to_string(
-                dealerImage, config='--psm 7 digits')
+            dealersHand = get_dealerTotal()
             # print(dealersHand)
             print("Getting dealers hand")
             dealersHand = int(dealersHand)
             print(f"Dealers hand is ${dealersHand}")
             ########################################
 
+            ########################################
             # Getting the players hand and then gray scaling and inverting the image
-            playerImage = cv2.imread('images\\userTotal.png')
-            gray = get_grayscale(playerImage)
-            cv2.imwrite('images\\userTotal.png', gray)
-
-            im2 = Image.open('images\\userTotal.png').convert('RGB')
-            im2_invert = ImageOps.invert(im2)
-            im2_invert.save('images\\userTotal.png')
-
-            playerImage = cv2.imread('images\\userTotal.png')
-            playersHand = pytesseract.image_to_string(
-                playerImage, config='--psm 7 digits')
+            playersHand = get_userTotal()
             # print(playersHand)
             print("Getting players hand")
             playersHand = int(playersHand)
@@ -154,10 +157,7 @@ def main():
                 splitbuttonx, splitbuttony = pyautogui.locateCenterOnScreen(
                     'images\\Split_button.png')
                 pyautogui.click(splitbuttonx, splitbuttony)
-                cardTotal = pyautogui.screenshot(
-                    region=(1012, 730, 77, 74))
-                cardTotal.save(
-                    r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                screenshot_userHand()
                 print("Getting players hand")
                 playersHand = int(get_userTotal())
                 print(f"Players hand is ${playersHand}")
@@ -171,10 +171,7 @@ def main():
                     hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
                         'images\\Hit_button.png')
                     pyautogui.click(hitbuttonx, hitbuttony)
-                    cardTotal = pyautogui.screenshot(
-                        region=(1012, 730, 77, 74))
-                    cardTotal.save(
-                        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                    screenshot_userHand()
                     print("Getting players hand")
                     playersHand = int(get_userTotal())
                     print(f"Players hand is ${playersHand}")
@@ -186,10 +183,7 @@ def main():
                     hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
                         'images\\Hit_button.png')
                     pyautogui.click(hitbuttonx, hitbuttony)
-                    cardTotal = pyautogui.screenshot(
-                        region=(1012, 730, 77, 74))
-                    cardTotal.save(
-                        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                    screenshot_userHand()
                     print("Getting players hand")
                     playersHand = int(get_userTotal())
                     print(f"Players hand is ${playersHand}")
@@ -201,10 +195,7 @@ def main():
                     hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
                         'images\\Hit_button.png')
                     pyautogui.click(hitbuttonx, hitbuttony)
-                    cardTotal = pyautogui.screenshot(
-                        region=(1012, 730, 77, 74))
-                    cardTotal.save(
-                        r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                    screenshot_userHand()
                     print("Getting players hand")
                     playersHand = int(get_userTotal())
                     print(f"Players hand is ${playersHand}")
