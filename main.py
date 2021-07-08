@@ -6,8 +6,6 @@ from pynput import keyboard
 import numpy as np
 import cv2
 import time
-import gc
-import sys
 from pytesseract.pytesseract import is_valid
 
 pyautogui.PAUSE = 4
