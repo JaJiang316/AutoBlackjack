@@ -128,6 +128,20 @@ def main():
             print(f"Players hand is ${playersHand}")
             ########################################
 
+            while(pyautogui.locateOnScreen('images\\Split_button.png') != None and playersHand == 16):
+                print("Splitting")
+                splitbuttonx, splitbuttony = pyautogui.locateCenterOnScreen(
+                    'images\\Split_button.png')
+                pyautogui.click(splitbuttonx, splitbuttony)
+                cardTotal = pyautogui.screenshot(
+                    region=(1012, 730, 77, 74))
+                cardTotal.save(
+                    r'C:\\Users\\Jason\\Desktop\\Self Projects\\Screen Reader\\images\\userTotal.png')
+                print("Getting players hand")
+                playersHand = int(get_userTotal())
+                print(f"Players hand is ${playersHand}")
+                pyautogui.moveTo(1660, 352)
+
             print("Checking Dealers Hand")
             if(dealersHand == 2 or dealersHand == 3):
                 while(playersHand < 13):
@@ -143,12 +157,6 @@ def main():
                     playersHand = int(get_userTotal())
                     print(f"Players hand is ${playersHand}")
                     pyautogui.moveTo(1660, 352)
-                if(playersHand < 21):
-                    print("Standing")
-                    if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
-                        standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
-                            'images\\Stand_button.png')
-                        pyautogui.click(standbuttonx, standbuttony)
 
             elif(dealersHand == 4 or dealersHand == 5 or dealersHand == 6):
                 while(playersHand < 12):
@@ -164,12 +172,6 @@ def main():
                     playersHand = int(get_userTotal())
                     print(f"Players hand is ${playersHand}")
                     pyautogui.moveTo(1660, 352)
-                if(playersHand < 21):
-                    print("Standing")
-                    if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
-                        standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
-                            'images\\Stand_button.png')
-                        pyautogui.click(standbuttonx, standbuttony)
 
             elif(dealersHand == 7 or dealersHand == 8 or dealersHand == 9 or dealersHand == 10 or dealersHand == 11):
                 while(playersHand < 17):
@@ -185,12 +187,13 @@ def main():
                     playersHand = int(get_userTotal())
                     print(f"Players hand is ${playersHand}")
                     pyautogui.moveTo(1660, 352)
-                if(playersHand < 21):
-                    print("Standing")
-                    if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
-                        standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
-                            'images\\Stand_button.png')
-                        pyautogui.click(standbuttonx, standbuttony)
+
+            if(playersHand < 21):
+                print("Standing")
+                if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
+                    standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
+                        'images\\Stand_button.png')
+                    pyautogui.click(standbuttonx, standbuttony)
         time.sleep(2)
         pyautogui.moveTo(1660, 352)
         # img = cv2.imread('screenshot_1.png')
