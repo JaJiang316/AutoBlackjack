@@ -68,6 +68,7 @@ def main():
     main.status = 'run'
     while True:
         print('running')
+        doubleddown = False
         # x, y = pyautogui.position()
         # positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
         # print(positionStr, end='')
@@ -77,11 +78,12 @@ def main():
         # myScreenshot = pyautogui.screenshot(region=(393, 472, 898, 332))
         # myScreenshot.save(
         #     r'C:\\Users\\Jason\Desktop\\Self Projects\\Screen Reader\\images\\screenshot_1.png')
-        print("Dealing")
         if(pyautogui.locateOnScreen('images\\Deal_button.png') != None):
+            print("Dealing")
             dealbuttonx, dealbuttony = pyautogui.locateCenterOnScreen(
                 'images\\Deal_button.png')
             pyautogui.click(dealbuttonx, dealbuttony)
+
         if(pyautogui.locateOnScreen('images\\Blackjack.png') == None):
             pyautogui.moveTo(1660, 352)
             dealerHandimg = pyautogui.screenshot(region=(1014, 400, 76, 72))
@@ -128,6 +130,25 @@ def main():
             print(f"Players hand is ${playersHand}")
             ########################################
 
+            if((dealersHand == 2 or dealersHand == 3 or dealersHand == 4 or dealersHand == 5 or dealersHand == 6) and playersHand == 9 and pyautogui.locateOnScreen('images\\Double_down.png') != None):
+                print("Doubling Down")
+                doubleddown = True
+                doubledownx, doubledowny = pyautogui.locateCenterOnScreen(
+                    'images\\Double_down.png')
+                pyautogui.click(doubledownx, doubledowny)
+            elif((playersHand == 10 and pyautogui.locateOnScreen('images\\Double_down.png') != None) and (dealersHand != 10 or dealersHand != 11)):
+                print("Doubling Down")
+                doubleddown = True
+                doubledownx, doubledowny = pyautogui.locateCenterOnScreen(
+                    'images\\Double_down.png')
+                pyautogui.click(doubledownx, doubledowny)
+            elif(playersHand == 11):
+                print("Doubling Down")
+                doubleddown = True
+                doubledownx, doubledowny = pyautogui.locateCenterOnScreen(
+                    'images\\Double_down.png')
+                pyautogui.click(doubledownx, doubledowny)
+
             while(pyautogui.locateOnScreen('images\\Split_button.png') != None and playersHand == 16):
                 print("Splitting")
                 splitbuttonx, splitbuttony = pyautogui.locateCenterOnScreen(
@@ -142,8 +163,9 @@ def main():
                 print(f"Players hand is ${playersHand}")
                 pyautogui.moveTo(1660, 352)
 
-            print("Checking Dealers Hand")
-            if(dealersHand == 2 or dealersHand == 3):
+            if(doubleddown == False):
+                print("Checking Dealers Hand")
+            if((dealersHand == 2 or dealersHand == 3) and doubleddown != True):
                 while(playersHand < 13):
                     print("Hitting")
                     hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
@@ -158,7 +180,7 @@ def main():
                     print(f"Players hand is ${playersHand}")
                     pyautogui.moveTo(1660, 352)
 
-            elif(dealersHand == 4 or dealersHand == 5 or dealersHand == 6):
+            elif((dealersHand == 4 or dealersHand == 5 or dealersHand == 6) and doubleddown != True):
                 while(playersHand < 12):
                     print("Hitting")
                     hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
@@ -173,7 +195,7 @@ def main():
                     print(f"Players hand is ${playersHand}")
                     pyautogui.moveTo(1660, 352)
 
-            elif(dealersHand == 7 or dealersHand == 8 or dealersHand == 9 or dealersHand == 10 or dealersHand == 11):
+            elif((dealersHand == 7 or dealersHand == 8 or dealersHand == 9 or dealersHand == 10 or dealersHand == 11) and doubleddown != True):
                 while(playersHand < 17):
                     print("Hitting")
                     hitbuttonx, hitbuttony = pyautogui.locateCenterOnScreen(
@@ -188,12 +210,14 @@ def main():
                     print(f"Players hand is ${playersHand}")
                     pyautogui.moveTo(1660, 352)
 
-            if(playersHand < 21):
+            if(playersHand < 21 and doubleddown != True):
                 print("Standing")
                 if(pyautogui.locateOnScreen('images\\Stand_button.png') != None):
                     standbuttonx, standbuttony = pyautogui.locateCenterOnScreen(
                         'images\\Stand_button.png')
                     pyautogui.click(standbuttonx, standbuttony)
+        else:
+            print("Blackjack")
         time.sleep(2)
         pyautogui.moveTo(1660, 352)
         # img = cv2.imread('screenshot_1.png')
